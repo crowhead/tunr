@@ -1,5 +1,5 @@
 class AlbumsController <ApplicationController
-  before_filter :set_album, only: [:show, :edit, :update]
+  before_filter :set_album, only: [:show, :edit, :update, :destroy]
 
   def index
     @albums = Album.all
@@ -19,6 +19,8 @@ class AlbumsController <ApplicationController
   end
 
   def show
+    @album = Album.find(params[:id])
+    render :show
   end
 
   def edit
@@ -32,12 +34,20 @@ class AlbumsController <ApplicationController
     end
   end
 
-  private
-    def set_album
-        @album = Album.find(params[:id])
-    end
-    def album_params
-        params.require(:album).permit(:title, :artist, :year)
-    end
+  def destroy
+   @album = Album.find(params[:id])
+    @album.destroy
+      redirect_to @album, notice: 'Album was successfully deleted.'
+    # else
+    #   render :index
+    # end
   end
 
+  private
+  def set_album
+    @album = Album.find(params[:id])
+  end
+  def album_params
+    params.require(:album).permit(:title, :artist, :year)
+  end
+end
