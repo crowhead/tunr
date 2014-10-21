@@ -6,7 +6,7 @@
       <li>No albums available</li>
   <% else %>
     <% @albums.each do |album| %>
-      <li class="album"><%= album.title %></li>
+      <li class="album"><%= album.title %> <%= link_to 'Remove', album_path(album), method: :delete %></li>
         <ul>
           <li class="artist"><%= album.artist %></li>
           <li class="year"><%= album.year %></li>
