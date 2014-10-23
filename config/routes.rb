@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :albums
   resources :users
+  resources :artists
+  resources :songs
   resources :sessions, only: [:new, :create]
   get '/signup', to: 'users#new'
   get '/signin', to: 'sessions#new'
