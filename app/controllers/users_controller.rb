@@ -1,16 +1,18 @@
 class UsersController < ApplicationController
-
+  
+  skip_before_action :require_signin, only: [:new, :create]
   def index
     @users = User.all
   end
 
-  def new
+  def new #sign up
     @user = User.new
   end
 
   def create
     @user = User.new(users_params)
     if @user.save
+      sign_in @user
       redirect_to @user #goes to user - show.html.erb
     else
       render :new     #rails will look in views folder for new.html.erb

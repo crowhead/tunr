@@ -1,6 +1,8 @@
 class SessionsController < ApplicationController
+skip_before_action :require_signin, only: [:new, :create]
 
-  def new
+  def new #this is the sign in
+    
   end
 
   def create
@@ -9,14 +11,17 @@ class SessionsController < ApplicationController
 
     # test if the user was found and authenticates
     if user && user.authenticate(params[:session][:password])
-      # TODO sign in the user
+      sign_in(user)
+      redirect_back_or(root_path)
     else
       flash[:error] = "Invalid email/password"
-      redirect_to new_sessions_path
+      redirect_to new_session_path
     end
   end
 
   def destroy
+    sign_out
+    redirect_to root_url
   end
 
 end
